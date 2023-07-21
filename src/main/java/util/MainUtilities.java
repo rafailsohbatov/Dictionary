@@ -1,47 +1,80 @@
 package util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import method.Methods;
+
+import java.util.Scanner;
 
 public class MainUtilities {
-    public static boolean logIn(String username, String password) throws Exception {
-        List<String> list = FileUtilities.readFromFile("admin");
-        Iterator<String> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            String[] str = iterator.next().split("-");
-            if (username.equalsIgnoreCase(str[0]) && password.equalsIgnoreCase(str[1])) {
-                return true;
+    private Scanner scanner;
+
+    public MainUtilities(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public void processAdmin() {
+        try {
+            System.out.print("Enter Username: ");
+            String username = scanner.next();
+            System.out.print("Enter Password: ");
+            String password = scanner.next();
+            Methods.logIn(username, password);
+            System.out.println("1.Create Dictionary\n2.Add Word To Dictionary\n3.Create Admin");
+            switch (scanner.nextInt()) {
+                case 1:
+                    System.out.print("Enter New Dictionary Name: ");
+                    String newFileName = scanner.next();
+                    FileUtilities.writeWordToFile(newFileName, "dictnames");
+                    FileUtilities.createFile(newFileName);
+                    break;
+                case 2:
+                    System.out.print("Enter Word 1: ");
+                    String word1 = scanner.next();
+                    System.out.print("Enter Word 2: ");
+                    String word2 = scanner.next();
+                    System.out.print("Enter File Name: ");
+                    String fileName = scanner.next();
+                    FileUtilities.writeWordToFile(word1, word2, fileName);
+                    break;
+                case 3:
+                    System.out.print("Enter Username: ");
+                    String newUserName = scanner.next();
+                    System.out.print("Enter Password: ");
+                    String newPassword = scanner.next();
+                    if (Methods.signUp(newUserName, newPassword)) {
+                        System.out.println("Success");
+                    }
+                    break;
+                default:
+                    System.out.println("There Is No Such Option");
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return false;
+
     }
 
-    public static boolean signUp(String username, String password) throws Exception {
-        if (logIn(username, password)) {
-            System.err.println("Admin Already Exist");
-            return false;
+    public void processUser() {
+        try {
+            System.out.println("1.See All Dictionaries\n2.To Translate The Word");
+            switch (scanner.nextInt()) {
+                case 1:
+                    Methods.seeAllDictName();
+                    break;
+                case 2:
+                    System.out.print("Enter Dictionary Name: ");
+                    String fileName = scanner.next();
+                    System.out.print("Enter Word: ");
+                    String word = scanner.next();
+                    String result = Methods.findWord(word, fileName);
+                    System.out.println("Translated Word: " + result);
+                    break;
+                default:
+                    System.out.println("There Is No Such Option");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        FileUtilities.writeWordToFile(username, password, "admin.txt");
-        return true;
-    }
 
-    public static void seeAllDictName() throws Exception{
-        List<String> list  = FileUtilities.readFromFile("dictnames");
-        list.stream().forEach(s -> System.out.println(s));
-    }
-
-    public static String findWord(String word, String fileName) throws Exception {
-        Iterator<String> iterator = FileUtilities.readFromFile(fileName).iterator();
-        Map<String, String> map = new HashMap<>();
-        while (iterator.hasNext()) {
-            String[] arr = iterator.next().split("-");
-            map.put(arr[0],arr[1]);
-            map.put(arr[1],arr[0]);
-        }
-        String result = map.get(word);
-        map.clear();
-        return result;
     }
 }

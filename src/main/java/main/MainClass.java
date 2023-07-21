@@ -1,69 +1,23 @@
 package main;
 
 
+import method.Methods;
 import util.FileUtilities;
 import util.MainUtilities;
 
 import java.util.Scanner;
 
 public class MainClass {
-    public static void main(String[] args) throws Exception {
-        Scanner scan = new Scanner(System.in);
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        MainUtilities mainUtilities = new MainUtilities(scanner);
         System.out.println("admin or user ?");
-        switch (scan.next()) {
+        switch (scanner.next()) {
             case "admin":
-                System.out.print("Enter Username: ");
-                String username = scan.next();
-                System.out.print("Enter Password: ");
-                String password = scan.next();
-                MainUtilities.logIn(username, password);
-                System.out.println("1.Luget yarat\n2.Lugete soz elave et\n3.Admin yarat");
-                switch (scan.nextInt()) {
-                    case 1:
-                        System.out.print("Enter New Dictionary Name: ");
-                        String newFileName = scan.next();
-                        FileUtilities.writeWordToFile(newFileName, "dictnames");
-                        FileUtilities.createFile(newFileName);
-                        break;
-                    case 2:
-                        System.out.print("Enter Word 1: ");
-                        String word1 = scan.next();
-                        System.out.print("Enter Word 2: ");
-                        String word2 = scan.next();
-                        System.out.print("Enter File Name: ");
-                        String fileName = scan.next();
-                        FileUtilities.writeWordToFile(word1, word2, fileName);
-                        break;
-                    case 3:
-                        System.out.print("Enter Username: ");
-                        String newUserName = scan.next();
-                        System.out.print("Enter Password: ");
-                        String newPassword = scan.next();
-                        if (MainUtilities.signUp(newUserName, newPassword)) {
-                            System.out.println("Success");
-                        }
-                        break;
-                    default:
-                        System.out.println("There Is No Such Option");
-                }
+                mainUtilities.processAdmin();
                 break;
             case "user":
-                System.out.println("1.See All Dictionaries\n2.To Translate The Word");
-                switch (scan.nextInt()) {
-                    case 1:
-                        MainUtilities.seeAllDictName();
-                        break;
-                    case 2:
-                        System.out.print("Enter Dictionary Name: ");
-                        String fileName = scan.next();
-                        System.out.print("Enter Word: ");
-                        String word = scan.next();
-                        String result = MainUtilities.findWord(word, fileName);
-                        System.out.println("Translated Word: " + result);
-                        break;
-                    default:
-                        System.out.println("There Is No Such Option");
-                }
+               mainUtilities.processUser();
                 break;
             default:
                 System.out.println("There Is No Such Option");
