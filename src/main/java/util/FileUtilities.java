@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FileUtilities {
@@ -31,5 +33,14 @@ public class FileUtilities {
         String result = map.get(word);
         map.clear();
         return result;
+    }
+
+    public static List<String> readFromFile(String filepath) throws Exception{
+        BufferedReader bw = new BufferedReader(new FileReader(filepath));
+        List<String> list = new ArrayList<>();
+        while (bw.ready()){
+            list.add(bw.readLine());
+        }
+        return list;
     }
 }
