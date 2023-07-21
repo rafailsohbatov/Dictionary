@@ -16,12 +16,13 @@ public class MainClass {
                 String username = scan.next();
                 System.out.print("Enter Password: ");
                 String password = scan.next();
-                MainUtilities.logIn(username,password);
+                MainUtilities.logIn(username, password);
                 System.out.println("1.Luget yarat\n2.Lugete soz elave et\n3.Admin yarat");
                 switch (scan.nextInt()) {
                     case 1:
                         System.out.print("Enter New Dictionary Name: ");
                         String newFileName = scan.next();
+                        FileUtilities.writeWordToFile(newFileName, "dictnames");
                         FileUtilities.createFile(newFileName);
                         break;
                     case 2:
@@ -43,19 +44,29 @@ public class MainClass {
                         }
                         break;
                     default:
-                        System.out.println("Bu secim yoxdur");
+                        System.out.println("There Is No Such Option");
                 }
                 break;
             case "user":
-                System.out.print("Enter Dictionary Name: ");
-                String fileName = scan.next();
-                System.out.print("Enter Word: ");
-                String word = scan.next();
-                String result = FileUtilities.findWord(word, fileName);
-                System.out.println("Translated Word: " + result);
+                System.out.println("1.See All Dictionaries\n2.To Translate The Word");
+                switch (scan.nextInt()) {
+                    case 1:
+                        MainUtilities.seeAllDictName();
+                        break;
+                    case 2:
+                        System.out.print("Enter Dictionary Name: ");
+                        String fileName = scan.next();
+                        System.out.print("Enter Word: ");
+                        String word = scan.next();
+                        String result = MainUtilities.findWord(word, fileName);
+                        System.out.println("Translated Word: " + result);
+                        break;
+                    default:
+                        System.out.println("There Is No Such Option");
+                }
                 break;
             default:
-                System.out.println("Bu istifadeci yoxdur");
+                System.out.println("There Is No Such Option");
         }
         main(args);
     }
