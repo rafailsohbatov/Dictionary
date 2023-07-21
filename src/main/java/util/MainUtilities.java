@@ -35,7 +35,7 @@ public class MainUtilities {
                     String word1 = scanner.next();
                     System.out.print("Enter Word 2: ");
                     String word2 = scanner.next();
-                    System.out.print("Enter File Name: ");
+                    System.out.print("Enter Dictionary Name: ");
                     String fileName = scanner.next();
                     FileUtilities.writeWordToFile(word1, word2, fileName);
                     break;
