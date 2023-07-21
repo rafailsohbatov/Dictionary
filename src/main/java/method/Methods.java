@@ -8,4 +8,8 @@ public interface Methods {
      void seeAllDictName() throws Exception;
 
      String findWord(String word, String fileName) throws Exception;
+
+     void updateWord(String word,String newWord,String fileName) throws Exception;
+
+     void deleteWord(String word,String fileName) throws Exception;
 }
